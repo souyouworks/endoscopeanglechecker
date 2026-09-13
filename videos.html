@@ -4,119 +4,243 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>使い方動画｜EndoScopeAngleChecker</title>
-<meta name="description" content="内視鏡のアングル（湾曲）角度を測定するiOSアプリ EndoScopeAngleChecker の使い方動画。スタンドを使う方法と、手持ちで撮影する方法を紹介します。">
+<meta name="description" content="内視鏡のアングル（湾曲）角度を測定するiOSアプリ EndoScopeAngleChecker の使い方動画。撮影の準備、スタンド撮影、手持ち撮影を動画で紹介します。">
 <link rel="stylesheet" href="style.css">
 <style>
-  .video-block { margin: 0 0 40px; }
-  .video-block h3 { margin: 0 0 6px; font-size: 18px; color: #16303a; }
-  .video-block .meta { margin: 0 0 12px; font-size: 14px; color: #545d68; }
-  .video-block video { width: 100%; height: auto; display: block;
-                       background: #14181d; border-radius: 8px; border: 1px solid #dfe3e8; }
-  .video-block .points { margin: 12px 0 0; padding-left: 20px; font-size: 15px; }
-  .video-block .points li { margin: 4px 0; }
-  .order { background: #e6f1f5; border-radius: 8px; padding: 16px 20px; margin: 0 0 32px; }
-  .order p { margin: 0 0 8px; font-weight: 600; color: #16303a; }
-  .order ol { margin: 0; padding-left: 22px; }
-  .order li { margin: 3px 0; }
+  :root { --navy-1:#0f2a3c; --navy-2:#0a1b29; --sky:#63b8d4; }
+
+  body { padding-bottom: 0; }
+
+  /* ── 見出し（全幅の濃紺） ── */
+  .hero {
+    margin: 0 -20px 44px;
+    padding: 20px 20px 58px;
+    background: linear-gradient(165deg, var(--navy-1) 0%, var(--navy-2) 100%);
+    color: #fff;
+  }
+  .hero-in { max-width: 44rem; margin: 0 auto; }
+  .crumb { font-size: .84rem; margin: 0 0 40px; }
+  .crumb a { color: #8fb6c9; text-decoration: none; }
+  .crumb a:hover { text-decoration: underline; }
+  .hero .eyebrow {
+    font-size: .76rem; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--sky); font-weight: 700; margin: 0 0 14px;
+  }
+  .hero h1 { font-size: 2.15rem; line-height: 1.32; margin: 0 0 16px; color: #fff; }
+  .hero .sub { font-size: 1rem; color: #a9c2d1; margin: 0; max-width: 32rem; line-height: 1.8; }
+
+  /* ── 3ステップの見取り図 ── */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 34px 0 0; }
+  .step {
+    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14);
+    border-radius: 12px; padding: 16px 16px 18px;
+  }
+  .step .n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--sky); color: var(--navy-2);
+    font-size: .82rem; font-weight: 700; margin-bottom: 10px;
+  }
+  .step .t { display: block; font-weight: 650; font-size: .97rem; color: #fff; line-height: 1.5; }
+  .step .d { display: block; font-size: .8rem; color: #9ab4c4; margin-top: 4px; }
+
+  /* ── 動画 ── */
+  .vid { margin: 0 0 54px; }
+  .vid-head { display: flex; align-items: center; gap: 12px; margin: 0 0 6px; flex-wrap: wrap; }
+  .vid-n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 50%; flex: none;
+    background: var(--accent); color: #fff; font-size: .9rem; font-weight: 700;
+  }
+  .vid-head h2 {
+    margin: 0; border: none; padding: 0; font-size: 1.28rem; line-height: 1.4;
+  }
+  .pill {
+    font-size: .76rem; font-weight: 650; color: var(--accent);
+    background: var(--accent-soft); border-radius: 999px; padding: 3px 11px; white-space: nowrap;
+  }
+  .vid .cap { margin: 0 0 14px 42px; color: var(--ink-soft); font-size: .92rem; }
+  .vid video {
+    width: 100%; height: auto; display: block; background: #000;
+    border-radius: 14px; box-shadow: 0 10px 34px rgba(10,27,41,.18);
+  }
+  .pts { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 9px; }
+  .pts li { position: relative; padding-left: 26px; font-size: .95rem; line-height: 1.7; }
+  .pts li::before {
+    content: ""; position: absolute; left: 8px; top: .66em;
+    width: 7px; height: 7px; border-radius: 50%; background: var(--sky);
+  }
+
+  /* ── 撮影のこつ ── */
+  .tips { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 0 0 8px; }
+  .tip {
+    background: var(--bg-soft); border: 1px solid var(--line);
+    border-radius: 12px; padding: 20px 22px;
+  }
+  .tip h3 { margin: 0 0 8px; font-size: 1rem; line-height: 1.5; }
+  .tip p { margin: 0; font-size: .93rem; color: var(--ink-soft); line-height: 1.78; }
+
+  /* ── 対応言語 ── */
+  .lang-lead { margin: 0 0 18px; font-size: .95rem; color: var(--ink-soft); }
+  .langs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 0 0 8px; }
+  .lang {
+    display: block; text-decoration: none; color: inherit;
+    border: 1px solid var(--line); border-radius: 12px;
+    padding: 20px 20px 18px; background: var(--bg-soft);
+  }
+  .lang:hover { border-color: var(--accent); }
+  .lang .code {
+    display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+    color: var(--accent); background: var(--accent-soft);
+    border-radius: 999px; padding: 3px 10px; margin-bottom: 12px;
+  }
+  .lang .name { display: block; font-size: 1.18rem; font-weight: 700; line-height: 1.4; margin-bottom: 6px; }
+  .lang .title { display: block; font-size: .95rem; font-weight: 600; margin-bottom: 3px; }
+  .lang .meta { display: block; font-size: .82rem; color: var(--ink-soft); }
+
+  .links { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .links a {
+    display: block; padding: 14px 18px; border: 1px solid var(--line);
+    border-radius: 10px; text-decoration: none; font-weight: 600;
+    background: var(--bg-soft);
+  }
+  .links a:hover { border-color: var(--accent); }
+
+  .note {
+    background: var(--bg-soft); border: 1px solid var(--line);
+    border-radius: 12px; padding: 20px 22px; font-size: .92rem;
+    color: var(--ink-soft); line-height: 1.8; margin: 0;
+  }
+  footer { margin-bottom: 60px; }
+
+  @media (max-width: 640px) {
+    .hero { padding-bottom: 44px; }
+    .hero h1 { font-size: 1.62rem; }
+    .steps, .tips, .langs { grid-template-columns: 1fr; }
+    .vid .cap { margin-left: 0; }
+  }
 </style>
 </head>
 <body>
+
+<div class="hero">
+  <div class="hero-in">
+    <p class="crumb"><a href="index.html">&larr; サポートページ</a></p>
+    <p class="eyebrow">iOS アプリ</p>
+    <h1>使い方動画</h1>
+    <p class="sub">撮影の準備から測定まで、実際の手順を動画でご覧いただけます。合わせて4分半ほどです。</p>
+
+    <div class="steps">
+      <div class="step"><span class="n">1</span><span class="t">スタンド撮影の準備</span><span class="d">約1分</span></div>
+      <div class="step"><span class="n">2</span><span class="t">スタンドで測る</span><span class="d">約1分30秒</span></div>
+      <div class="step"><span class="n">3</span><span class="t">手持ちで測る</span><span class="d">約1分50秒</span></div>
+    </div>
+  </div>
+</div>
+
 <div class="wrap">
 
-<header>
-  <p class="app">iOS アプリ</p>
-  <h1>EndoScopeAngleChecker<br>使い方動画</h1>
-  <p class="dates">撮影の準備から測定まで、実際の手順を動画でご覧いただけます。</p>
-</header>
+  <section class="vid">
+    <div class="vid-head"><span class="vid-n">1</span><h2>スタンド撮影の準備</h2><span class="pill">約1分</span></div>
+    <p class="cap">用意するものと、置き方を紹介します</p>
+    <video controls preload="none" playsinline poster="videos/stand-setup.jpg">
+      <source src="videos/stand-setup.mp4" type="video/mp4">
+      お使いのブラウザでは動画を再生できません。<a href="videos/stand-setup.mp4">動画をダウンロード</a>してご覧ください。
+    </video>
+    <ul class="pts">
+      <li>用意するもの — スタッキングラック、A4コピー用紙（白）、照明</li>
+      <li>A4用紙は動かないよう固定します</li>
+      <li>スマートフォンは、格子が写り込まない位置に置きます</li>
+      <li>影が気になるときは、アプリの「ライトON」を使います</li>
+    </ul>
+  </section>
 
-<div class="order">
-  <p>はじめての方は、この順にご覧ください</p>
-  <ol>
-    <li>スタンド撮影の準備（約1分）</li>
-    <li>スタンドで測る（約1分30秒）</li>
-    <li>手持ちで測る（約1分50秒）</li>
-  </ol>
-</div>
+  <section class="vid">
+    <div class="vid-head"><span class="vid-n">2</span><h2>スタンドで測る</h2><span class="pill">約1分30秒</span></div>
+    <p class="cap">上下左右4方向を続けて測ります</p>
+    <video controls preload="none" playsinline poster="videos/stand-measure.jpg">
+      <source src="videos/stand-measure.mp4" type="video/mp4">
+      お使いのブラウザでは動画を再生できません。<a href="videos/stand-measure.mp4">動画をダウンロード</a>してご覧ください。
+    </video>
+    <ul class="pts">
+      <li>画面いっぱいに映るよう、拡大・縮小で大きさを合わせます</li>
+      <li>基準線が緑になるよう、スコープの向きを整えます</li>
+      <li>方向のタブを切り替えながら、4方向を撮影・保存します</li>
+    </ul>
+  </section>
 
-<h2>1. スタンド撮影の準備</h2>
-<div class="video-block">
-  <p class="meta">約1分 ／ 必要なものと、置き方を紹介します</p>
-  <video controls preload="none" playsinline poster="videos/stand-setup.jpg">
-    <source src="videos/stand-setup.mp4" type="video/mp4">
-    お使いのブラウザでは動画を再生できません。<a href="videos/stand-setup.mp4">動画をダウンロード</a>してご覧ください。
-  </video>
-  <ul class="points">
-    <li>用意するもの：スタッキングラック・A4コピー用紙（白）・照明</li>
-    <li>A4用紙は動かないよう固定します</li>
-    <li>スマートフォンは、格子が写り込まない位置に置きます</li>
-    <li>影が気になるときは、アプリの「ライトON」を使います</li>
+  <section class="vid">
+    <div class="vid-head"><span class="vid-n">3</span><h2>手持ちで測る</h2><span class="pill">約1分50秒</span></div>
+    <p class="cap">スタンドがない場合の測り方です</p>
+    <video controls preload="none" playsinline poster="videos/handheld-measure.jpg">
+      <source src="videos/handheld-measure.mp4" type="video/mp4">
+      お使いのブラウザでは動画を再生できません。<a href="videos/handheld-measure.mp4">動画をダウンロード</a>してご覧ください。
+    </video>
+    <ul class="pts">
+      <li>設定で「手持ち撮影モード」をONにすると、水平ガイドが表示されます</li>
+      <li>水平ガイドが緑になるよう、スマートフォンを水平に保ちます</li>
+      <li>両手がふさがるときは、音声で操作できます（「上」「撮影」「保存」など）</li>
+    </ul>
+  </section>
+
+  <h2>撮影のこつ</h2>
+  <div class="tips">
+    <div class="tip">
+      <h3>無地の白い紙の上で撮る</h3>
+      <p>木目の机、不織布、アングル測定プレートの上などは、模様を読み取ってしまい誤検出の原因になります。A4のコピー用紙で十分です。</p>
+    </div>
+    <div class="tip">
+      <h3>影を作らない</h3>
+      <p>濃い影が写り込むと、スコープと区別できなくなります。均一に照らし、消えないときは画面右下の「ライトON」をお使いください。</p>
+    </div>
+    <div class="tip">
+      <h3>大きさと向きを合わせる</h3>
+      <p>先端と根元が画面四隅の枠に収まるまで拡大し、挿入部を画面の縦線に沿わせると、測定の精度が上がります。</p>
+    </div>
+    <div class="tip">
+      <h3>撮るまでの時間をそろえる</h3>
+      <p>アングルは曲げたあとも少しずつ深くなります。曲げてから撮影するまでの間隔を毎回そろえると、記録どうしを比べやすくなります。</p>
+    </div>
+  </div>
+
+  <h2>操作マニュアル　/　Manual　/　操作手册</h2>
+  <p class="lang-lead">アプリ・マニュアルともに、<strong>日本語・English・简体中文</strong>の3言語でお使いいただけます。<br>The app and manual are available in Japanese, English and Simplified Chinese.</p>
+  <div class="langs">
+    <a class="lang" href="manual.pdf" hreflang="ja">
+      <span class="code">JA</span>
+      <span class="name">日本語</span>
+      <span class="title">操作マニュアル</span>
+      <span class="meta">PDF・42ページ</span>
+    </a>
+    <a class="lang" href="manual-en.pdf" hreflang="en">
+      <span class="code">EN</span>
+      <span class="name">English</span>
+      <span class="title">User Manual</span>
+      <span class="meta">PDF, 42 pages</span>
+    </a>
+    <a class="lang" href="manual-zh.pdf" hreflang="zh-Hans">
+      <span class="code">ZH</span>
+      <span class="name">简体中文</span>
+      <span class="title">操作手册</span>
+      <span class="meta">PDF・42页</span>
+    </a>
+  </div>
+
+  <h2>各種ご案内</h2>
+  <ul class="links">
+    <li><a href="index.html">サポートページ</a></li>
+    <li><a href="privacy.html">プライバシーポリシー</a></li>
   </ul>
-</div>
 
-<h2>2. スタンドで測る</h2>
-<div class="video-block">
-  <p class="meta">約1分30秒 ／ 上下左右4方向を続けて測ります</p>
-  <video controls preload="none" playsinline poster="videos/stand-measure.jpg">
-    <source src="videos/stand-measure.mp4" type="video/mp4">
-    お使いのブラウザでは動画を再生できません。<a href="videos/stand-measure.mp4">動画をダウンロード</a>してご覧ください。
-  </video>
-  <ul class="points">
-    <li>画面いっぱいに映るよう、拡大・縮小で大きさを合わせます</li>
-    <li>基準線が緑になるようスコープの向きを整えます</li>
-    <li>方向のタブを切り替えながら、4方向を撮影・保存します</li>
-  </ul>
-</div>
+  <h2>ご利用にあたって</h2>
+  <p class="note">
+    本アプリは薬機法上の医療機器・診断補助ソフトウェアではありません。内視鏡という<strong>機器そのものを点検するための道具</strong>であり、患者に関する測定・診断・治療は一切行いません。動画内の機種名・管理番号・担当者名は、すべて説明用の仮の値です。
+  </p>
 
-<h2>3. 手持ちで測る</h2>
-<div class="video-block">
-  <p class="meta">約1分50秒 ／ スタンドがない場合の測り方です</p>
-  <video controls preload="none" playsinline poster="videos/handheld-measure.jpg">
-    <source src="videos/handheld-measure.mp4" type="video/mp4">
-    お使いのブラウザでは動画を再生できません。<a href="videos/handheld-measure.mp4">動画をダウンロード</a>してご覧ください。
-  </video>
-  <ul class="points">
-    <li>設定で「手持ち撮影モード」をONにすると、水平ガイドが表示されます</li>
-    <li>水平ガイドが緑になるよう、スマートフォンを水平に保ちます</li>
-    <li>両手がふさがるときは、音声で操作できます（「上」「撮影」「保存」など）</li>
-  </ul>
-</div>
-
-<h2>撮影のこつ</h2>
-<div class="cards">
-  <div class="card">
-    <h3>無地の白い紙の上で撮る</h3>
-    <p>木目の机、不織布、アングル測定プレートの上などは、模様を読み取ってしまい誤検出の原因になります。A4のコピー用紙で十分です。</p>
-  </div>
-  <div class="card">
-    <h3>影を作らない</h3>
-    <p>濃い影が写り込むと、スコープと区別できなくなります。均一に照らし、消えないときは画面右下の「ライトON」をお使いください。</p>
-  </div>
-  <div class="card">
-    <h3>大きさと向きを合わせる</h3>
-    <p>先端と根元が画面四隅の枠に収まるまで拡大し、挿入部を画面の縦線に沿わせると、測定の精度が上がります。</p>
-  </div>
-  <div class="card">
-    <h3>撮るまでの時間をそろえる</h3>
-    <p>アングルは曲げたあとも少しずつ深くなります。曲げてから撮影するまでの間隔を毎回そろえると、記録どうしを比べやすくなります。</p>
-  </div>
-</div>
-
-<h2>各種ご案内</h2>
-<ul>
-  <li><a href="index.html">サポートページ</a></li>
-  <li><a href="manual.pdf">操作マニュアル（PDF・42ページ）</a></li>
-  <li><a href="privacy.html">プライバシーポリシー</a></li>
-</ul>
-
-<h2>ご利用にあたって</h2>
-<p>
-  本アプリは薬機法上の医療機器・診断補助ソフトウェアではありません。内視鏡という<strong>機器そのものを点検するための道具</strong>であり、患者に関する測定・診断・治療は一切行いません。動画内の機種名・管理番号は、すべて説明用の仮の値です。
-</p>
-
-<footer>
-  <span>&copy; 2026 souyou works</span>
-  <span><a href="mailto:souyouworks@gmail.com">souyouworks@gmail.com</a></span>
-</footer>
+  <footer>
+    <span>&copy; 2026 souyou works</span>
+    <span><a href="mailto:souyouworks@gmail.com">souyouworks@gmail.com</a></span>
+  </footer>
 
 </div>
 </body>
