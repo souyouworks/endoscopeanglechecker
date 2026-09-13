@@ -6,7 +6,7 @@
 <title>EndoScopeAngleChecker サポート</title>
 <meta name="description" content="内視鏡のアングル（湾曲）角度を写真から測定・記録するiOSアプリ EndoScopeAngleChecker のサポートページ。お問い合わせ・プライバシーポリシー。">
 <link rel="stylesheet" href="style.css?v=01f88eb1">
-<link rel="stylesheet" href="motion.css?v=108ca43b">
+<link rel="stylesheet" href="motion.css?v=420a722b">
 </head>
 <body>
 <div class="hero-top">
@@ -21,9 +21,27 @@
         <a class="btn btn-sub" href="#faq">よくあるご質問</a>
       </div>
     </div>
-    <div class="phone reveal d2">
-      <video src="videos/hero-loop.mp4" poster="videos/hero-poster.jpg"
-             autoplay muted loop playsinline preload="metadata" aria-label="アプリが内視鏡の角度を測定する様子"></video>
+    <div class="stage reveal d2">
+      <div class="phone" id="shots">
+        <img class="shot on" src="images/hero-1.jpg" width="660" height="1434" fetchpriority="high"
+             alt="カメラ画面。緑の基準線に合わせてスコープを写している">
+        <img class="shot" src="images/hero-2.jpg" width="660" height="1434" fetchpriority="low"
+             alt="測定結果の画面。180度と表示され、合格と出ている">
+        <img class="shot" src="images/hero-3.jpg" width="660" height="1434" fetchpriority="low"
+             alt="点検記録の画面。上下左右4方向の写真と角度が並んでいる">
+        <img class="shot" src="images/hero-4.jpg" width="660" height="1434" fetchpriority="low"
+             alt="経年変化の画面。日ごとの角度が折れ線グラフになっている">
+        <img class="shot" src="images/hero-5.jpg" width="660" height="1434" fetchpriority="low"
+             alt="経年変化データの画面。日付ごとの角度が表になり、書き出しボタンがある">
+      </div>
+      <p class="shot-cap" id="shot-cap">スコープを撮る</p>
+      <div class="dots" id="shot-dots" role="tablist" aria-label="画面の切り替え">
+        <button type="button" class="dot on" aria-label="1枚目：スコープを撮る"></button>
+        <button type="button" class="dot" aria-label="2枚目：角度が数字で出る"></button>
+        <button type="button" class="dot" aria-label="3枚目：上下左右がそのまま記録に"></button>
+        <button type="button" class="dot" aria-label="4枚目：日ごとの変化が見える"></button>
+        <button type="button" class="dot" aria-label="5枚目：表にして取り出せる"></button>
+      </div>
     </div>
   </div>
 </div>
@@ -135,6 +153,52 @@
     });
   }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
   t.forEach(function (e) { io.observe(e); });
+})();
+
+/* トップのコマ送り。4.5秒ごとに、ゆっくり入れ替える。 */
+(function () {
+  var box = document.getElementById('shots');
+  if (!box) { return; }
+
+  var shots = box.querySelectorAll('.shot');
+  var dots  = document.getElementById('shot-dots').querySelectorAll('.dot');
+  var cap   = document.getElementById('shot-cap');
+  var words = ['スコープを撮る', '角度が数字で出る', '上下左右がそのまま記録に',
+               '日ごとの変化が見える', '表にして取り出せる'];
+
+  var slow  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var now   = 0;
+  var timer = null;
+  var seen  = true;   // 画面に入っているか
+
+  function show(i) {
+    if (i === now) { return; }
+    now = i;
+    shots.forEach(function (el, n) { el.classList.toggle('on', n === i); });
+    dots.forEach(function (el, n) { el.classList.toggle('on', n === i); });
+    // 文字は、消えてから書き換える（切り替わりの途中で二重に見えないように）
+    cap.classList.add('fade');
+    setTimeout(function () { cap.textContent = words[i]; cap.classList.remove('fade'); }, 450);
+  }
+
+  function play()  { stop(); if (!slow && seen && !document.hidden) { timer = setInterval(next, 4500); } }
+  function stop()  { if (timer) { clearInterval(timer); timer = null; } }
+  function next()  { show((now + 1) % shots.length); }
+
+  dots.forEach(function (el, i) {
+    el.addEventListener('click', function () { show(i); play(); });
+  });
+
+  // 画面の外に出たら止める。タブが裏に回っても止める。
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      seen = es[0].isIntersecting;
+      seen ? play() : stop();
+    }, { threshold: 0.2 }).observe(box);
+  }
+  document.addEventListener('visibilitychange', function () { document.hidden ? stop() : play(); });
+
+  play();
 })();
 </script>
 </body>

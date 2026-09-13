@@ -9,11 +9,13 @@
 .reveal.d2.on { transition-delay: .16s; }
 .reveal.d3.on { transition-delay: .24s; }
 
-/* 動きを減らす設定の方には、動かさない */
+/* 動きを減らす設定の方には、動かさない。
+   コマ送りは自動で進まず、丸い印を押したときだけ切り替わる（JS側で止めている）。 */
 @media (prefers-reduced-motion: reduce) {
   .reveal, .reveal.on { opacity: 1; transform: none; transition: none; }
-  .hero-video, .float { animation: none !important; }
   html { scroll-behavior: auto; }
+  .shot, .shot-cap, .dot { transition: none; }
+  .btn:hover, .fact:hover, .card:hover, .lang:hover, .tip:hover { transform: none; }
 }
 
 html { scroll-behavior: smooth; }
@@ -34,7 +36,7 @@ html { scroll-behavior: smooth; }
 .hero-grid {
   position: relative; z-index: 1;
   max-width: 60rem; margin: 0 auto;
-  display: grid; grid-template-columns: 1fr 300px; gap: 48px; align-items: center;
+  display: grid; grid-template-columns: 1fr 270px; gap: 48px; align-items: center;
 }
 .hero-copy .eyebrow {
   font-size: .76rem; letter-spacing: .18em; text-transform: uppercase;
@@ -55,16 +57,43 @@ html { scroll-behavior: smooth; }
 .btn-sub { background: rgba(255,255,255,.1); color: #fff; border: 1px solid rgba(255,255,255,.28); }
 .btn-sub:hover { transform: translateY(-2px); background: rgba(255,255,255,.16); }
 
-/* 端末の枠に入れたループ映像 */
+/* ───────── 端末の枠に入れたコマ送り ─────────
+   動かすのは「濃さ」だけ。枠も中身も位置は一切動かさない。   */
+.stage { width: 270px; margin: 0 auto; }
+
 .phone {
-  position: relative; width: 300px; margin: 0 auto;
+  position: relative; width: 270px;
   border-radius: 34px; padding: 9px;
   background: linear-gradient(160deg, #33404c, #1a222b);
   box-shadow: 0 26px 60px rgba(0,0,0,.46);
-  animation: float 7s ease-in-out infinite;
 }
-.phone video { display: block; width: 100%; border-radius: 26px; background: #fff; }
-@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-11px); } }
+
+/* 5枚を同じ場所に重ねる。1枚目だけ場所を確保する役をする */
+.shot {
+  display: block; width: 100%; height: auto;
+  border-radius: 26px; background: #fff;
+  opacity: 0; transition: opacity .85s ease-in-out;
+}
+.shot:not(:first-child) { position: absolute; top: 9px; left: 9px; width: calc(100% - 18px); }
+.shot.on { opacity: 1; }
+
+/* いま何の画面かを、下に1行で出す */
+.shot-cap {
+  margin: 18px 0 0; text-align: center;
+  font-size: .92rem; font-weight: 650; color: #d5e6ef;
+  min-height: 1.6em; transition: opacity .45s ease;
+}
+.shot-cap.fade { opacity: 0; }
+
+/* 丸い印。押すとその画面に飛ぶ */
+.dots { display: flex; justify-content: center; gap: 9px; margin-top: 12px; }
+.dot {
+  width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%;
+  background: rgba(255,255,255,.28); cursor: pointer;
+  transition: background .3s ease, transform .3s ease;
+}
+.dot:hover { background: rgba(255,255,255,.55); }
+.dot.on { background: var(--sky); transform: scale(1.35); }
 
 /* ───────── 数字で見せる ───────── */
 .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 0 0 8px; }
@@ -89,6 +118,11 @@ html { scroll-behavior: smooth; }
   .hero-grid { grid-template-columns: 1fr; gap: 36px; }
   .hero-copy h1 { font-size: 2rem; }
   .facts { grid-template-columns: 1fr; }
+}
+
+/* 幅の狭い端末では、枠が画面からはみ出さないようにする */
+@media (max-width: 360px) {
+  .stage, .phone { width: 100%; }
 }
 
 /* 見せ場のすぐ下の見出しは、上の罫線を消して余白をとる */
